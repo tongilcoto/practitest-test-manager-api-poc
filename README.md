@@ -15,18 +15,13 @@
 
 ## Execution
 
-1. export BASEURL_practitest=https://api.practitest.com
-2. export TESTSPATH_practitest=/api/v2/projects/{projectId}/tests.json?display-ids={testDisplayIds}
-3. export STEPSPATH_practitest=/api/v2/projects/{projectId}/steps.json?test-ids={testIds}
-4. export INSTANCESPATH_practitest=/api/v2/projects/{projectId}/instances.json?set-ids={testSetId}
-5. export TOKEN_practitest=<your token>
-6. export EXAMPLESCUSTOMFIELD_practitest=<the field name is made with '---f-' + id field>
-7. export RUNSPATH_practitest=/api/v2/projects/{projectId}/runs.json
-8. python3 practiTestDownloadFeatures.py -h
-9. python3 practiTestDownloadFeatures.py -p --project_id <project_id> -s --test_set_id <testSuiteId>
-10. behave --json -o reports/report.json
-11. python3 practiTestUploadRun.py -h
-12. python3 practiTestUploadRun.py -p --projec_id <project_id> -r --report <path_to_json_report_file>
+1. export TOKEN_practitest=<your token>
+2. export EXAMPLESCUSTOMFIELD_practitest=<the field name is made with '---f-' + id field>
+3. python3 practiTestDownloadFeatures.py -h
+4. python3 practiTestDownloadFeatures.py -p --project_id <project_id> -s --test_set_id <testSuiteId>
+5. behave --json -o reports/report.json
+6. python3 practiTestUploadRun.py -h
+7. python3 practiTestUploadRun.py -p --projec_id <project_id> -r --report <path_to_json_report_file>
 
 ## Exiting virtual env
 
