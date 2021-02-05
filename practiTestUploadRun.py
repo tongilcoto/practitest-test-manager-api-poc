@@ -5,8 +5,10 @@ import json
 import re
 import requests
 from jsonpath_ng.ext import parse
+from practitest_urls import *
 
 status_mapping = {'passed': 'PASSED', 'failed': 'FAILED', 'skipped': 'NO RUN'}
+
 
 def get_custom_fields(project_id):
     """
@@ -14,7 +16,7 @@ def get_custom_fields(project_id):
     :param project_id:
     :return:
     """
-    url = os.environ['BASEURL_practitest'] + os.environ['CUSTOMFIELDSPATH_practitest'].format(projectId=project_id)
+    url = BASE_URL + CUSTOM_FIELDS_PATH.format(projectId=project_id)
     print(url)
     response = requests.get(url,
                             headers={
@@ -35,7 +37,7 @@ def upload_run(project_id, practitest_run):
     :param practitest_run:
     :return:
     """
-    url = os.environ['BASEURL_practitest'] + os.environ['RUNSPATH_practitest'].format(projectId=project_id)
+    url = BASE_URL + RUNS_PATH.format(projectId=project_id)
     print(url)
     response = requests.post(url,
                              json=practitest_run,
@@ -60,7 +62,7 @@ def upload_run_with_several_requests(project_id, practitest_run):
     for i, instance in enumerate([match.value for match in parse("$..instance-id").find(practitest_run)]):
         j = 0
         while (j < len(requests_instances) and instance in requests_instances[j][0]):
-                j += 1
+            j += 1
 
         if j < len(requests_instances):
             requests_instances[j][0].append(instance)

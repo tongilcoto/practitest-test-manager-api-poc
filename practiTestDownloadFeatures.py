@@ -2,6 +2,7 @@ import os
 import argparse
 import requests
 from jsonpath_ng.ext import parse
+from practitest_urls import *
 
 
 def get_instances_ids_of_suite(project_id, test_set_id):
@@ -12,8 +13,7 @@ def get_instances_ids_of_suite(project_id, test_set_id):
     :return:
     """
     # curl -H "Content-Type: application/json" -H "PTToken: $TOKEN" https://api.practitest.com/api/v2/projects/18098/tests.json
-    url = os.environ['BASEURL_practitest'] + os.environ['INSTANCESPATH_practitest'].format(projectId=project_id,
-                                                                                           testSetId=test_set_id)
+    url = BASE_URL + INSTANCES_PATH.format(projectId=project_id, testSetId=test_set_id)
     print(url)
     response = requests.get(url,
                             headers={
@@ -35,8 +35,7 @@ def get_steps(project_id, test_ids):
     :return:
     """
     test_ids_list = ','.join(map(str, test_ids))
-    url = os.environ['BASEURL_practitest'] + os.environ['STEPSPATH_practitest'].format(projectId=project_id,
-                                                                                       testIds=test_ids_list)
+    url = BASE_URL + STEPS_PATH.format(projectId=project_id, testIds=test_ids_list)
     print(url)
     response = requests.get(url, headers={
         'accept': 'application/json',
@@ -83,9 +82,7 @@ def create_feature_files(projectId, instances_ids, test_display_ids):
     :return:
     """
     test_display_ids_list = ','.join(map(str, test_display_ids))
-    url = os.environ['BASEURL_practitest'] + os.environ['TESTSPATH_practitest']. \
-        format(projectId=projectId,
-               testDisplayIds=test_display_ids_list)
+    url = BASE_URL + TESTS_PATH.format(projectId=projectId, testDisplayIds=test_display_ids_list)
     print(url)
     response = requests.get(url,
                             headers={
