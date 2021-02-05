@@ -1,0 +1,8 @@
+.idea
+.vscode
+*.log
+*.log.*
+venv
+reports/*
+.DS_Store
+features/*.feature
