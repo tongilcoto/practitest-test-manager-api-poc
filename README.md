@@ -16,7 +16,7 @@
 ## Execution
 
 1. export BASEURL_practitest=https://api.practitest.com
-2. export TESTSPATH_practitest=/api/v2/projects/{projectId}/tests/tests.json?display-ids={testDisplayIds}
+2. export TESTSPATH_practitest=/api/v2/projects/{projectId}/tests.json?display-ids={testDisplayIds}
 3. export STEPSPATH_practitest=/api/v2/projects/{projectId}/steps.json?test-ids={testIds}
 4. export INSTANCESPATH_practitest=/api/v2/projects/{projectId}/instances.json?set-ids={testSetId}
 5. export TOKEN_practitest=<your token>
