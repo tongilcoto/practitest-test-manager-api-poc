@@ -4,7 +4,7 @@
 ## Parses the report and creates new "runs" for instances (test cases) at Practi Test
 ## Road Map
 ### <del>Passed Test Steps</del>
-### Passed Test with run time as total test steps run time
+### <del>Passed Test with run time as total test steps run time</del>
 ### Failed Test Steps
 ### Failed Test Steps with screenshots
 ### Create Run with more than 20 tests (needs two requests)
