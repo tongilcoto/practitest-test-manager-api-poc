@@ -117,16 +117,19 @@ def create_practiTest_run(custom_fields, reportDict):
             # for each step
             data = []
             instance_run['attributes']['custom-fields'] = {}
+            scenario_duration = 0
             for step in scenario['steps']:
 
                 # add step.name to ptreport (it has the instantiated values)
                 # add mapping(step.result.status) to ptreport
+                # add step duration to scenario duration
                 step_data = {
-                    'name': step['name'],
+                    'name': step['keyword'] + ' ' + step['name'],
                     'status': status_mapping[step['result']['status']]
                 }
+                scenario_duration += step['result']['duration']
 
-                # for each match.arguments
+                # Looking for step parameters: for each match.arguments
                 for argument in step['match']['arguments']:
 
                     # if not fixed value
@@ -143,11 +146,15 @@ def create_practiTest_run(custom_fields, reportDict):
 
                 data.append(copy.deepcopy(step_data))
 
+            # adding test duration as steps duration sum
+            instance_run['attributes']['run-duration'] = scenario_duration
+
             # add steps data to instance
             instance_run['steps']['data'] = copy.deepcopy(data)
 
             # add run for the scenario to Practi Test report
             practitest_run['data'].append(copy.deepcopy(instance_run))
+
 
     print(practitest_run)
 
