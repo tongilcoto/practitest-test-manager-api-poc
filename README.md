@@ -2,6 +2,12 @@
 ## Downloads info from Practi Test and creates feature files from scratch
 ## Executes, with a JSON report as output, a few tests on GoRest Public API https://gorest.co.in
 ## Parses the report and creates new "runs" for instances (test cases) at Practi Test
+## Road Map
+### <del>Passed Test Steps</del>
+### Passed Test with run time as total test steps run time
+### Failed Test Steps
+### Failed Test Steps with screenshots
+### Create Run with more than 20 tests (needs two requests)
 
 ## Pre-requisites
 
