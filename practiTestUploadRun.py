@@ -124,25 +124,33 @@ def create_practiTest_run(custom_fields, reportDict):
                 # add mapping(step.result.status) to ptreport
                 # add step duration to scenario duration
                 step_data = {
-                    'name': step['keyword'] + ' ' + step['name'],
-                    'status': status_mapping[step['result']['status']]
+                    'name': step['keyword'] + ' ' + step['name']
                 }
-                scenario_duration += step['result']['duration']
+                if step.get('result'):
+                    step_data['status'] = status_mapping[step['result']['status']]
+                    scenario_duration += step['result']['duration']
+                    if step['result'].get('error_message'):
+                        step_data['actual-results'] = '\n'.join(step['result']['error_message'])
+                        instance_run['attributes']['automated-execution-output'] = '\n'.join(step['result']['error_message'])[-255:]
+                else:
+                    step_data['status'] = 'NO RUN'
 
-                # Looking for step parameters: for each match.arguments
-                for argument in step['match']['arguments']:
+                # Looking for step parameters and filling custom field accordingly: for each match.arguments
+                # Steps after a failed step got not match key
+                if step.get('match'):
+                    for argument in step['match']['arguments']:
 
-                    # if not fixed value
-                    # (by checking argument.name against report via step.location using trailing ':<line number>')
-                    step_definition = feature_definition[int((re.search(r':(.+)', step['location']).group(1))) - 1]
-                    if re.search('"<' + argument["name"] + '>"', step_definition):
-                        # get custom_field id by using argument.name
-                        field_id = [match.value for match in
-                                    parse("$.data[?(@.attributes.name=='" + argument['name'] + "')].id").find(
-                                        custom_fields)][0]
-                        # add custom_field to ptreport
-                        field_id_name = '---f-' + str(field_id)
-                        instance_run['attributes']['custom-fields'][field_id_name] = argument['value']
+                        # if not fixed value
+                        # (by checking argument.name against report via step.location using trailing ':<line number>')
+                        step_definition = feature_definition[int((re.search(r':(.+)', step['location']).group(1))) - 1]
+                        if re.search('"<' + argument["name"] + '>"', step_definition):
+                            # get custom_field id by using argument.name
+                            field_id = [match.value for match in
+                                        parse("$.data[?(@.attributes.name=='" + argument['name'] + "')].id").find(
+                                            custom_fields)][0]
+                            # add custom_field to ptreport
+                            field_id_name = '---f-' + str(field_id)
+                            instance_run['attributes']['custom-fields'][field_id_name] = argument['value']
 
                 data.append(copy.deepcopy(step_data))
 

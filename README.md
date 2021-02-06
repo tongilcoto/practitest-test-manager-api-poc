@@ -5,8 +5,9 @@
 ## Road Map
 ### <del>Passed Test Steps</del>
 ### <del>Passed Test with run time as total test steps run time</del>
-### Failed Test Steps
+### <del>Failed Test Steps</del>
 ### Failed Test Steps with screenshots
+### Download instances following pagination info
 ### Create Run with more than 20 tests (needs two requests)
 
 ## Pre-requisites
