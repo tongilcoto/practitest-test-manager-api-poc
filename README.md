@@ -7,7 +7,7 @@
 ### <del>Passed Test with run time as total test steps run time</del>
 ### <del>Failed Test Steps</del>
 ### <del>Failed Test Steps with screenshots</del>
-### Upload failed scenarios at the last create-run requests in order to set the test failed
+### <del>Upload failed scenarios at the last create-run requests in order to set the instance failed</del>
 ### Download instances following pagination info
 ### Create Run with more than 20 tests (needs two requests)
 ### Any screenshot at any page, not only standard screenshot-at-failed-page-for-failed-step
