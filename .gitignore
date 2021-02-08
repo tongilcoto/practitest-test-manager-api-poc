@@ -3,6 +3,6 @@
 *.log
 *.log.*
 venv
-reports/*
+reports
 .DS_Store
 features/*.feature

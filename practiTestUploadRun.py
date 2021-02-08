@@ -3,9 +3,11 @@ import os
 import argparse
 import json
 import re
+import base64
 import requests
 from jsonpath_ng.ext import parse
 from practitest_urls import *
+from screenshotFileName import get_screenshot_file_name
 
 status_mapping = {'passed': 'PASSED', 'failed': 'FAILED', 'skipped': 'NO RUN'}
 
@@ -78,6 +80,22 @@ def upload_run_with_several_requests(project_id, practitest_run):
         upload_run(project_id, request_body)
 
 
+def check_screenshots(instance_id, scenario_name, step):
+
+    file_name = get_screenshot_file_name(scenario_name, step['name'])
+
+    screenshot = open(file_name, "rb")
+
+    file_data = {
+                    'content_encoded': base64.b64encode(screenshot.read()).decode('utf-8'),
+                    'filename': file_name.split('/')[1]
+                }
+    if step.get('files'):
+        step['files']['data'].append(file_data)
+    else:
+        step['files'] = {'data': [file_data]}
+
+
 def create_practiTest_run(custom_fields, reportDict):
     """
 
@@ -132,6 +150,7 @@ def create_practiTest_run(custom_fields, reportDict):
                     if step['result'].get('error_message'):
                         step_data['actual-results'] = '\n'.join(step['result']['error_message'])
                         instance_run['attributes']['automated-execution-output'] = '\n'.join(step['result']['error_message'])[-255:]
+                        check_screenshots(instance_id, scenario['name'], step_data)
                 else:
                     step_data['status'] = 'NO RUN'
 

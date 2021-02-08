@@ -6,9 +6,11 @@
 ### <del>Passed Test Steps</del>
 ### <del>Passed Test with run time as total test steps run time</del>
 ### <del>Failed Test Steps</del>
-### Failed Test Steps with screenshots
+### <del>Failed Test Steps with screenshots</del>
+### Upload failed scenarios at the last create-run requests in order to set the test failed
 ### Download instances following pagination info
 ### Create Run with more than 20 tests (needs two requests)
+### Any screenshot at any page, not only standard screenshot-at-failed-page-for-failed-step
 
 ## Pre-requisites
 
@@ -25,10 +27,10 @@
 1. export TOKEN_practitest=<your token>
 2. export EXAMPLESCUSTOMFIELD_practitest=<the field name is made with '---f-' + id field>
 3. python3 practiTestDownloadFeatures.py -h
-4. python3 practiTestDownloadFeatures.py -p --project_id <project_id> -s --test_set_id <testSuiteId>
+4. python3 practiTestDownloadFeatures.py -p --project_id <project_id> -s --test_set_id <test_set_id>
 5. behave --json -o reports/report.json
 6. python3 practiTestUploadRun.py -h
-7. python3 practiTestUploadRun.py -p --projec_id <project_id> -r --report <path_to_json_report_file>
+7. python3 practiTestUploadRun.py -p --project_id <project_id> -r --report <path_to_json_report_file>
 
 ## Exiting virtual env
 
