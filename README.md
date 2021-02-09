@@ -9,7 +9,7 @@
 ### <del>Failed Test Steps with screenshots</del>
 ### <del>Upload failed scenarios at the last create-run requests in order to set the instance failed</del>
 ### <del>Download instances following pagination info</del>
-### Create Run with more than 20 tests (needs two requests)
+### <del>Split create-run requests every 20 scenarios</del>
 ### Any screenshot at any page, not only standard screenshot-at-failed-page-for-failed-step
 
 ## Pre-requisites

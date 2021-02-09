@@ -264,8 +264,15 @@ def upload_run_with_several_requests(project_id, practitest_run):
 
     for request_index in requests_instances:
         data = []
+        batch = 0
         for i in request_index[1]:
             data.append(practitest_run['data'][i])
+            batch += 1
+            if batch == 20:
+                data = []
+                batch = 0
+                request_body = {'data': data}
+                upload_run(project_id, request_body)
         request_body = {'data': data}
         upload_run(project_id, request_body)
 
