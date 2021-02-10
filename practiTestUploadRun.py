@@ -8,6 +8,7 @@ import requests
 from jsonpath_ng.ext import parse
 from practitest_urls import *
 from screenshotFileName import get_screenshot_file_name
+from datetime import datetime
 
 status_mapping = {'passed': 'PASSED', 'failed': 'FAILED', 'skipped': 'NO RUN'}
 
@@ -58,6 +59,10 @@ def create_practiTest_run(custom_fields, reportDict):
     practitest_run = {
         "data": []
     }
+
+    run_number = datetime.strftime(datetime.today(), '%Y%m%d%H%M%S')
+    run_number_custom_field = '---f-' + str([match.value for match in parse("$.data[?(@.attributes.name=='Run Number')].id")
+        .find(custom_fields)][0])
 
     # for each feature
     for feature in reportDict:
@@ -290,9 +295,9 @@ def main():
     custom_fields = get_custom_fields(args.project_id)
 
     # load json report as python dict
-    reportDict = json.load(args.report)
+    report_dict = json.load(args.report)
 
-    practitest_run = create_practiTest_run(custom_fields, reportDict)
+    practitest_run = create_practiTest_run(custom_fields, report_dict)
 
     # Since API does nota allow the same instance twice in the body, even if they have different custom field value
     # ... this method is not valid
