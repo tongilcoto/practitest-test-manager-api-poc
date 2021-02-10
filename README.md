@@ -10,6 +10,7 @@
 ### <del>Upload failed scenarios at the last create-run requests in order to set the instance failed</del>
 ### <del>Download instances following pagination info</del>
 ### <del>Split create-run requests every 20 scenarios</del>
+### <del>Create a parameter in order to mark runs belonging to the same scenario outline execution for PractiTest reports</del>
 ### Any screenshot at any page, not only standard screenshot-at-failed-page-for-failed-step
 
 ## Pre-requisites
