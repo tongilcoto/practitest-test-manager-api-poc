@@ -7,7 +7,7 @@ import base64
 import requests
 from jsonpath_ng.ext import parse
 from practitest_urls import *
-from screenshotFileName import get_screenshot_file_name
+from screenshotFileName import get_screenshot_new_file_name
 from datetime import datetime
 
 status_mapping = {'passed': 'PASSED', 'failed': 'FAILED', 'skipped': 'NO RUN'}
@@ -34,18 +34,23 @@ def get_custom_fields(project_id):
 
 
 def check_screenshots(instance_id, scenario_name, step):
-    file_name = get_screenshot_file_name(scenario_name, step['name'])
+    next_screenshot_file_name = get_screenshot_new_file_name(scenario_name, step['name'])
 
-    screenshot = open(file_name, "rb")
+    next_screenshot_number_for_step = int(re.search(r'.+_([\d]+).png', next_screenshot_file_name).group(1))
 
-    file_data = {
-        'content_encoded': base64.b64encode(screenshot.read()).decode('utf-8'),
-        'filename': file_name.split('/')[1]
-    }
-    if step.get('files'):
-        step['files']['data'].append(file_data)
-    else:
-        step['files'] = {'data': [file_data]}
+    if next_screenshot_number_for_step > 1:
+        for i in range(1, next_screenshot_number_for_step):
+            file_name = re.search(r'(.+)_([\d]+).png', next_screenshot_file_name).group(1) + '_' + str(i) + '.png'
+            screenshot = open(file_name, "rb")
+
+            file_data = {
+                'content_encoded': base64.b64encode(screenshot.read()).decode('utf-8'),
+                'filename': file_name.split('/')[1]
+            }
+            if step.get('files'):
+                step['files']['data'].append(file_data)
+            else:
+                step['files'] = {'data': [file_data]}
 
 
 def create_practiTest_run(custom_fields, reportDict):
@@ -61,8 +66,9 @@ def create_practiTest_run(custom_fields, reportDict):
     }
 
     run_number = datetime.strftime(datetime.today(), '%Y%m%d%H%M%S')
-    run_number_custom_field = '---f-' + str([match.value for match in parse("$.data[?(@.attributes.name=='Run Number')].id")
-        .find(custom_fields)][0])
+    run_number_custom_field = '---f-' + str(
+        [match.value for match in parse("$.data[?(@.attributes.name=='Run Number')].id")
+            .find(custom_fields)][0])
 
     # for each feature
     for feature in reportDict:
@@ -109,7 +115,7 @@ def create_practiTest_run(custom_fields, reportDict):
                         step_data['actual-results'] = '\n'.join(step['result']['error_message'])
                         instance_run['attributes']['automated-execution-output'] = '\n'.join(
                             step['result']['error_message'])[-255:]
-                        check_screenshots(instance_id, scenario['name'], step_data)
+                    check_screenshots(instance_id, scenario['name'], step_data)
                 else:
                     step_data['status'] = 'NO RUN'
 
